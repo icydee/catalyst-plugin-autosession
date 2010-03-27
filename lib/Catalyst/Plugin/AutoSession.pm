@@ -1,6 +1,7 @@
-#!/usr/bin/perl
-
 package Catalyst::Plugin::AutoSession;
+
+our $VERSION = 0.03;
+$VERSION = eval $VERSION;
 
 use strict;
 use warnings;
@@ -8,12 +9,9 @@ use warnings;
 use List::Util qw(first);
 use NEXT;
 
-our $VERSION = 0.02;
-
-
 sub prepare {
     my $class = shift;
-    
+
     my $c = $class->NEXT::prepare(@_);
 
     my $config = $c->config->{AutoSession};
@@ -31,7 +29,7 @@ sub prepare {
 
             $c->session->{$key} = $c->request->param($param);
         }
-        
+
         if (my ($key) = $param =~ /^$prefixList(.*)/) {
             # Check for exclusions
             next PARAM if (first {$key eq $_} @{$config->{exclude}});
@@ -52,17 +50,17 @@ sub prepare {
 
 =head1 NAME
 
-Catalyst::Plugin::AutoSession - Generate session variables directly from 
+Catalyst::Plugin::AutoSession - Generate session variables directly from
 request parameters
 
 =head1 SYNOPSIS
 
     # To set session variables directly from request parameters
-    
+
     use Catalyst qw(AutoSession Session);
-    
+
     # Configure the prefix and exclusions
-    
+
     Admin->config(
         AutoSession => {
             prefix      => 'sess_',
@@ -106,7 +104,7 @@ variables can be explicitely excluded in the C<exclude> configuration.
 
 =head2 prepare
 
-Will automatically set session variables based on  
+Will automatically set session variables based on
 C<$c-E<gt>request-E<gt>parameters> that start with a specified prefix.
 C<prepare> is called automatically by the Catalyst Engine; the end user will
 not have to call it directly. (In fact, it should never be called directly by

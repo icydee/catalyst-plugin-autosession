@@ -1,7 +1,8 @@
-AutoSession.pm
-MANIFEST
+Changes
 Makefile.PL
+MANIFEST
+README
 t/01use.t
 t/02pod.t
 t/03podcoverage.t
-META.yml
+lib/Catalyst/Plugin/AutoSession.pm
